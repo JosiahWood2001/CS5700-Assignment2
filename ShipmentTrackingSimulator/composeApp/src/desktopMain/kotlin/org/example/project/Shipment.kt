@@ -1,8 +1,7 @@
 package org.example.project
 
-import jdk.jfr.internal.consumer.EventLog.update
-
 class Shipment(shipmentId: String) : Subject {
+    //all variables are private set, setters are below
     var status: String = ""
         private set
     private val id: String = shipmentId
@@ -15,44 +14,61 @@ class Shipment(shipmentId: String) : Subject {
     var currentLocation: String = "Unknown"
         private set
 
+    //this will store a list of the observers that need to be notified
     private val observers: MutableSet<Observer> = mutableSetOf()
 
     override fun registerObserver(observer: Observer) {
         observers.add(observer)
     }
+
     override fun removeObserver(observer: Observer) {
         observers.remove(observer)
 
     }
+
     override fun notifyObserver() {
-        for (observer in observers){
+        for (observer in observers) {
             observer.update()
         }
     }
-    fun setStatus(newStatus: String){
-        status=newStatus
+
+    fun setStatus(newStatus: String) {
+        status = newStatus
         notifyObserver()
     }
-    fun getId():String{return id}
-    fun setNotes(newNotes: MutableList<String>){
-        notes=newNotes
+
+    //shipment must be created with an id, kotlin restrict private set variables in the constructor
+    fun getId(): String {
+        return id
+    }
+
+    fun setNotes(newNotes: MutableList<String>) {
+        notes = newNotes
         notifyObserver()
     }
-    fun setUpdateHistory(newUpdateHistory: MutableList<ShippingUpdate>){
-        updateHistory=newUpdateHistory
-    notifyObserver()}
-    fun setExpectedDeliveryDateTimestamp(newExpectedDeliveryDateTimestamp: Long){
-        expectedDeliveryDateTimestamp=newExpectedDeliveryDateTimestamp
-    notifyObserver()}
-    fun setCurrentLocation(newCurrentLocation: String){
-        currentLocation=newCurrentLocation
-    notifyObserver()}
 
+    fun setUpdateHistory(newUpdateHistory: MutableList<ShippingUpdate>) {
+        updateHistory = newUpdateHistory
+        notifyObserver()
+    }
 
-    fun addNote(note: String){
+    fun setExpectedDeliveryDateTimestamp(newExpectedDeliveryDateTimestamp: Long) {
+        expectedDeliveryDateTimestamp = newExpectedDeliveryDateTimestamp
+        notifyObserver()
+    }
+
+    fun setCurrentLocation(newCurrentLocation: String) {
+        currentLocation = newCurrentLocation
+        notifyObserver()
+    }
+
+    fun addNote(note: String) {
         notes.add(note)
-    notifyObserver()}
-    fun addUpdate(update: ShippingUpdate){
+        notifyObserver()
+    }
+
+    fun addUpdate(update: ShippingUpdate) {
         updateHistory.add(update)
-    notifyObserver()}
+        notifyObserver()
+    }
 }

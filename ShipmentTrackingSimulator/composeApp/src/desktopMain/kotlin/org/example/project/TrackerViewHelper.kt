@@ -8,9 +8,9 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-
+//stores states for a shipment it's observing
 class TrackerViewHelper : Observer {
-    var shipmentId by mutableStateOf( "")
+    var shipmentId by mutableStateOf("")
         private set
     var shipmentStatus by mutableStateOf("Unknown")
         private set
@@ -22,20 +22,21 @@ class TrackerViewHelper : Observer {
         private set
     var shipmentNotes = mutableStateListOf<String>()
         private set
-    override fun update(){
+
+    //required interface function
+    override fun update() {
         val shipment = TrackingSimulator.findShipment(shipmentId)
         shipmentStatus = shipment?.status ?: "Unknown"
         shipmentLocation = shipment?.currentLocation ?: "Unknown"
-        if (shipment?.expectedDeliveryDateTimestamp !=null){
+        if (shipment?.expectedDeliveryDateTimestamp != null) {
             val date = Date(shipment.expectedDeliveryDateTimestamp!!)
-            val format = SimpleDateFormat("MM/dd/yyyy hh:mm:ss", Locale.getDefault())
+            val format = SimpleDateFormat("hh:mm:ss MM/dd/yyyy", Locale.getDefault())
             expectedShipmentDeliveryDate = format.format(date)
-        }
-        else{
-            expectedShipmentDeliveryDate=null
+        } else {
+            expectedShipmentDeliveryDate = null
         }
         shipmentUpdateHistory.clear()
-        for (update in shipment?.updateHistory ?: listOf()){
+        for (update in shipment?.updateHistory ?: listOf()) {
             val description = update.getString()
             if (description != null) {
                 shipmentUpdateHistory.add(description)
@@ -46,10 +47,13 @@ class TrackerViewHelper : Observer {
         shipmentNotes.addAll(shipment?.notes ?: emptyList())
 
     }
-    fun stopTracking(){
+
+    //communicate with subject to register or unregister
+    fun stopTracking() {
         TrackingSimulator.findShipment(shipmentId)?.removeObserver(this)
     }
-    fun trackShipment(id: String){
+
+    fun trackShipment(id: String) {
         shipmentId = id
         TrackingSimulator.findShipment(shipmentId)?.registerObserver(this)
     }

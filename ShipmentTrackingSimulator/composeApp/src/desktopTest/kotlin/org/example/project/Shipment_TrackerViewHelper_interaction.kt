@@ -54,7 +54,7 @@ class Shipment_TrackerViewHelper_interaction {
         val timestamp = 1735689600000L // 01/01/2025 12:00:00 AM GMT
         shipment.setExpectedDeliveryDateTimestamp(timestamp)
 
-        val format = SimpleDateFormat("MM/dd/yyyy hh:mm:ss", Locale.getDefault())
+        val format = SimpleDateFormat("hh:mm:ss MM/dd/yyyy", Locale.getDefault())
         val expected = format.format(Date(timestamp))
 
         assertEquals(expected, tracker.expectedShipmentDeliveryDate)
