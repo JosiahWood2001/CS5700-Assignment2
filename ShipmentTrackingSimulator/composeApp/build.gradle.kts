@@ -36,6 +36,7 @@ kotlin {
         desktopTest.dependencies {
             implementation(kotlin("test"))
             implementation("org.jetbrains.kotlin:kotlin-test-junit:2.0.21")
+            implementation("org.junit.jupiter:junit-jupiter:5.10.0")
         }
     }
 }
