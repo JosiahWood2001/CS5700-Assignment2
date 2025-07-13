@@ -1,5 +1,7 @@
 package org.example.project
 
+import jdk.jfr.internal.consumer.EventLog.update
+
 class Shipment(shipmentId: String) : Subject {
     var status: String = ""
         private set
@@ -10,7 +12,7 @@ class Shipment(shipmentId: String) : Subject {
         private set
     var expectedDeliveryDateTimestamp: Long? = null
         private set
-    var currentLocation: String = ""
+    var currentLocation: String = "Unknown"
         private set
 
     private val observers: MutableSet<Observer> = mutableSetOf()
@@ -27,13 +29,30 @@ class Shipment(shipmentId: String) : Subject {
             observer.update()
         }
     }
-    fun setStatus(newStatus: String){status=newStatus}
-    fun setNotes(newNotes: MutableList<String>){notes=newNotes}
-    fun setUpdateHistory(newUpdateHistory: MutableList<ShippingUpdate>){updateHistory=newUpdateHistory}
-    fun setExpectedDeliveryDateTimestamp(newExpectedDeliveryDateTimestamp: Long){expectedDeliveryDateTimestamp=newExpectedDeliveryDateTimestamp}
-    fun setCurrentLocation(newCurrentLocation: String){currentLocation=newCurrentLocation}
+    fun setStatus(newStatus: String){
+        status=newStatus
+        notifyObserver()
+    }
+    fun getId():String{return id}
+    fun setNotes(newNotes: MutableList<String>){
+        notes=newNotes
+        notifyObserver()
+    }
+    fun setUpdateHistory(newUpdateHistory: MutableList<ShippingUpdate>){
+        updateHistory=newUpdateHistory
+    notifyObserver()}
+    fun setExpectedDeliveryDateTimestamp(newExpectedDeliveryDateTimestamp: Long){
+        expectedDeliveryDateTimestamp=newExpectedDeliveryDateTimestamp
+    notifyObserver()}
+    fun setCurrentLocation(newCurrentLocation: String){
+        currentLocation=newCurrentLocation
+    notifyObserver()}
 
 
-    fun addNote(note: String){notes.add(note)}
-    fun addUpdate(update: ShippingUpdate){updateHistory.add(update)}
+    fun addNote(note: String){
+        notes.add(note)
+    notifyObserver()}
+    fun addUpdate(update: ShippingUpdate){
+        updateHistory.add(update)
+    notifyObserver()}
 }

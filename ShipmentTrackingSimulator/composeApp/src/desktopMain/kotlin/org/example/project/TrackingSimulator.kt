@@ -6,21 +6,20 @@ import kotlinx.coroutines.withContext
 import java.io.File
 
 val handlers: Map<String, UpdateHandler> = mapOf(
-    created.type to created, delayed.type to delayed, shipped.type to shipped, lost.type to lost,
-    location.type to location, canceled.type to canceled, delivered.type to delivered, noteadded.type to noteadded
+    Created.type to Created, Delayed.type to Delayed, Shipped.type to Shipped, Lost.type to Lost,
+    Location.type to Location, Canceled.type to Canceled, Delivered.type to Delivered, Noteadded.type to Noteadded
 )
 
 object TrackingSimulator {
-    private val filename = "test.txt"
-    private var shipments = mutableListOf<Shipment>()
-    /*fun findShipment(id:String):Shipment?{
-        return shipments.find{it.id == id}
-    }*/
+    private var shipments = mutableSetOf<Shipment>()
+    fun findShipment(id:String):Shipment?{
+        return shipments.find{it.getId() == id}
+    }
     fun addShipment(shipment:Shipment){
         shipments.add(shipment)
     }
     suspend fun runSimulation(){
-        File(filename).useLines {lines ->
+        File("test.txt").useLines {lines ->
             for (line in lines){
                 delay(1000)
                 val lineElements = line.split(",")

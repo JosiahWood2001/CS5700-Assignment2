@@ -1,10 +1,15 @@
 package org.example.project
 
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
+
 class ShippingUpdate(
+    private var reportMethod: UpdateHandler,
     private var previousStatus:String,
     private var newStatus:String,
     private var timeStamp:Long,
-    private var other:String=""
+    private var other:String="",
 ){
     fun getPreviousStatus():String{return previousStatus}
     fun getNewStatus():String{return newStatus}
@@ -15,4 +20,7 @@ class ShippingUpdate(
 
     fun getOther():String{return other}
     fun setOther(newOther:String){other=newOther}
+    fun getString():String?{
+        return reportMethod.reportUpdate(this)
+    }
 }
