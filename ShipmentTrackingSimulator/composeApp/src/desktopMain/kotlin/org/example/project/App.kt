@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
@@ -24,6 +25,10 @@ import shipmenttrackingsimulator.composeapp.generated.resources.compose_multipla
 @Composable
 @Preview
 fun App() {
+    val simulator = remember { TrackingSimulator("test.txt")}
+    LaunchedEffect(simulator) {
+        simulator.runSimulation()
+    }
     MaterialTheme {
         Column {
             Divider(Modifier.height(5.dp))
