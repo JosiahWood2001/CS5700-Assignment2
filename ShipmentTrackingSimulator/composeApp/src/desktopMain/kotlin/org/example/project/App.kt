@@ -25,7 +25,7 @@ import shipmenttrackingsimulator.composeapp.generated.resources.compose_multipla
 @Composable
 @Preview
 fun App() {
-    val simulator = remember { TrackingSimulator("test.txt")}
+    val simulator = remember { TrackingSimulator}
     LaunchedEffect(simulator) {
         simulator.runSimulation()
     }

@@ -3,8 +3,7 @@ package org.example.project
 class Shipment(shipmentId: String) : Subject {
     var status: String = ""
         private set
-    val id: String = shipmentId
-        private set
+    private val id: String = shipmentId
     var notes: MutableList<String> = mutableListOf()
         private set
     var updateHistory: MutableList<ShippingUpdate> = mutableListOf()

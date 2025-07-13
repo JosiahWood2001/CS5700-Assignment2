@@ -10,11 +10,12 @@ val handlers: Map<String, UpdateHandler> = mapOf(
     location.type to location, canceled.type to canceled, delivered.type to delivered, noteadded.type to noteadded
 )
 
-class TrackingSimulator(private val filename: String) {
+object TrackingSimulator {
+    private val filename = "test.txt"
     private var shipments = mutableListOf<Shipment>()
-    fun findShipment(id:String):Shipment?{
+    /*fun findShipment(id:String):Shipment?{
         return shipments.find{it.id == id}
-    }
+    }*/
     fun addShipment(shipment:Shipment){
         shipments.add(shipment)
     }

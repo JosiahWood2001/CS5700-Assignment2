@@ -20,7 +20,7 @@ fun ShipmentSubscriptions(){
     Row{
         TextField(searchField, onValueChange={searchField=it})
         Button(onClick = {
-            shipments += Shipment()
+            //shipments += Shipment()
             searchField = ""
         }){
             Text("Search")
